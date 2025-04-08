@@ -1,0 +1,52 @@
+Changes with PassiveDNS 1.2.0
+
+- Added enhancements to better handle high volume traffic
+- Added support for LOC records
+- Added support for DNSSEC records
+- Added support for HINFO records
+- Added support for SPF records
+- Added support for SSHFP records
+- Support for DLT_RAW pcap files
+- Added support for LINKTYPE_LINUX_SLL
+- Added autotools support
+- Better OSX support
+- Added pf_ring support
+- Added support for SIGHUP to reopen log files
+- Added support for JSON output
+- Added syslog output option
+- Added support for expire_all_dns_records on SIGUSR2
+
+Changes with PassiveDNS 1.1.3
+
+- Added a fix for correct CNAME handling
+- Makefile improvements
+
+Changes with PassiveDNS 1.1.2
+
+- Zero padding to microseconds
+- Added a simple webui in php for searching the pdns mysql db.
+
+Changes with PassiveDNS 1.1.1
+
+- Added stats output to stdout with SIGUSR1 signal
+- Added support for more Server Return Codes
+
+Changes with PassiveDNS 1.0.0
+
+- Added microseconds to unix timestamps in log output
+- Added "count" field in log output.
+- Added more stat fields when exiting
+
+Changes with PassiveDNS 0.5.1
+
+- Fixed an issue of lost dns_records (memleak and finally a cpu spinn)
+- Fixed segfault when unable to read pcap
+- Fixed segfault when packet payload was only one byte
+
+Changes with PassiveDNS 0.5.0
+
+- Cleaned up unused code
+
+Changes with PassiveDNS 0.3.4
+
+- Added NXDOMAIN support

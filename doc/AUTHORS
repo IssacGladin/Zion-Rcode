@@ -1,0 +1,27 @@
+Primary authors:
+    Edward Fjellskål <edwardfjellskaal@gmail.com>
+
+Co-Maintainer:
+    Mats Klepsland <mats.klepsland@gmail.com>
+
+Code from earlier projects:
+    Kacper Wysocki   <kacper.wysocki@redpill-linpro.com>
+
+Some initially code ideas/borrowed from (Changes has been made):
+    DNS parsing with lib ldns:
+     www.nlnetlabs.nl (https://www.nlnetlabs.nl/projects/ldns/)
+     Mark Ellzey (https://github.com/ellzey/dns-archiver)
+
+Contributions (In no particular order!):
+ Eric Kollman
+ Henrik Ramberg
+ Joe Moore
+ kevin branch
+ David André
+ PingTrip
+ Sony Security Development Team
+ gavinspearhead
+
+If you've been left off the list, it's not intentional. Please let us know!
+
+Thanks!

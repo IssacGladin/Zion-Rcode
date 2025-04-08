@@ -1,0 +1,12 @@
+
+# PassiveDNS
+
+* Add some stats
+* Add abuility to read log file when starting up
+  - Import domains that has timestamp less then "$cachetimeout" ago
+  -- It will reduce the "noize" at startups.
+
+* Evaluate pdns hardening methods
+
+* Adding abuility for custom output formating 
+

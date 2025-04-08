@@ -1,0 +1,129 @@
+#!/bin/sh
+# $Id$
+#
+# passivednsd         Start/Stop the passivedns daemon.
+#
+# chkconfig: 2345 40 60
+# description:  passivedns rocks
+#
+
+# Quick and Dirty script by Eric Kollmann xnih13@gmail.com
+
+lock=/var/lock/subsys/passivedns
+prog=passivedns
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source the local configuration file
+. /etc/sysconfig/passivedns
+
+# if there are any non blank values coming from the sysconfig file we'll change them to commands now
+
+if [ "$INTERFACE" != "" ] ; then
+        INTERFACE="-i $INTERFACE"
+fi
+
+if [ "$PIDFILE" != "" ] ; then
+        PIDFILE="-p $PIDFILE"
+fi
+
+if [ "$LOGFILE" != "" ] ; then
+        LOGFILE="-l $LOGFILE"
+fi
+
+if [ "$LOGFIELDS" != "" ] ; then
+        LOGFIELDS="-f $LOGFIELDS"
+fi
+
+if [ "$NXDOMAINLOGFILE" != "" ] ; then
+        NXDOMAINLOGFILE="-L $NXDOMAINLOGFILE"
+fi
+
+if [ "$LOGSYSLOG" != "" ] ; then
+        LOGSYSLOG="-y"
+fi
+
+if [ "$NXSYSLOG" != "" ] ; then
+        NXSYSLOG="-Y"
+fi
+
+if [ "$BPF" != "" ] ; then
+        BPF="-b \"$BPF\""
+fi
+
+if [ "$SOFTMEM" != "" ] ; then
+        SOFTMEM="-S $SOFTMEM"
+fi
+
+if [ "$DNSCACHE" != "" ] ; then
+        DNSCACHE="-C $DNSCACHE"
+fi
+
+if [ "$DNSDUPE" != "" ] ; then
+        DNSDUPE="-P $DNSDUPE"
+fi
+
+if [ "$DNSRRTYPES" != "" ] ; then
+        DNSRRTYPES="-X $DNSRRTYPES"
+fi
+
+if [ "$USER" != "" ] ; then
+        USER="-u $USER"
+fi
+
+if [ "$GROUP" != "" ] ; then
+        GROUP="-g $GROUP"
+fi
+
+if [ "$DIRCHROOT" != "" ] ; then
+        DIRCHROOT="-T $DIRCHROOT"
+fi
+
+######################################
+
+RETVAL=0
+
+function start(){
+    daemon $prog -D $INTERFACE $PIDFILE $LOGFILE $NXDOMAINLOGFILE $LOGSYSLOG $NXSYSLOG $LOGFIELDS $BPF $SOFTMEM $DNSCACHE $DNSDUPE $DNSRRTYPES $USER $GROUP $DIRCHROOT
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lock
+    return $RETVAL
+}
+
+stop(){
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lock
+    return $RETVAL
+}
+
+case "$1" in
+  start)
+	echo -n "Starting $prog: "
+	start
+        ;;
+  stop)
+        echo -n "Stopping $prog: "
+	stop
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  condrestart)
+        [ -e $lock ] && stop && start
+        ;;
+  status)
+        status passivedns
+        RETVAL=$?
+        ;;
+
+  *)
+        echo "Usage: $0 {start|stop|restart|condrestart|status}"
+        RETVAL=2
+esac
+
+exit $RETVAL
