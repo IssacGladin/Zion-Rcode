@@ -296,7 +296,7 @@ int cache_dns_objects(packetinfo *pi, ldns_rdf *rdf_data,
          * if the bucket is to big or non-efficient. We would still store data
          * such as: firstseen,lastseen,client_ip,server_ip,class,query,NXDOMAIN
          */
-         if (config.dnsfe & (pdns_chk_dnsfe(rcode))) {
+         if (1) {
             ldns_rr_list *dns_query_domains;
             ldns_rr *rr;
 
@@ -700,12 +700,7 @@ void print_passet(pdns_record *l, pdns_asset *p, ldns_rr *rr,
 
     /* Use the correct file descriptor */
     if (is_err_record && config.output_log_nxd) {
-        if (config.logfile_all)
-            fd = config.logfile_fd;
-        else
-            fd = config.logfile_nxd_fd;
-        if (fd == NULL)
-            return;
+        fd = config.logfile_fd;
     }
     else if (!is_err_record && config.output_log) {
         fd = config.logfile_fd;
