@@ -682,7 +682,7 @@ void print_passet(pdns_record *l, pdns_asset *p, ldns_rr *rr,
     json_t *json_query_len;
     json_t *json_type;
     json_t *json_answer;
-    json_t *json_answer_len;
+    json_t *json_answer_len1. Update RCODE Handling in print_passet();
     json_t *json_ttl;
     json_t *json_count;
     size_t data_flags = 0;
@@ -839,44 +839,6 @@ void print_passet(pdns_record *l, pdns_asset *p, ldns_rr *rr,
             break;
     }
 
-    if (is_err_record) {
-        switch (l->rcode) {
-            case 1:
-                snprintf(rr_rcode, 20, "FORMERR");
-                break;
-            case 2:
-                snprintf(rr_rcode, 20, "SERVFAIL");
-                break;
-            case 3:
-                snprintf(rr_rcode, 20, "NXDOMAIN");
-                break;
-            case 4:
-                snprintf(rr_rcode, 20, "NOTIMPL");
-                break;
-            case 5:
-                snprintf(rr_rcode, 20, "REFUSED");
-                break;
-            case 6:
-                snprintf(rr_rcode, 20, "YXDOMAIN");
-                break;
-            case 7:
-                snprintf(rr_rcode, 20, "YXRRSET");
-                break;
-            case 8:
-                snprintf(rr_rcode, 20, "NXRRSET");
-                break;
-            case 9:
-                snprintf(rr_rcode, 20, "NOTAUTH");
-                break;
-            case 10:
-                snprintf(rr_rcode, 20, "NOTZONE");
-                break;
-            default:
-                snprintf(rr_rcode, 20, "UNKNOWN-ERROR-%d", l->rcode);
-                break;
-        }
-    }
-
 #ifdef HAVE_JSON
     if ((is_err_record && config.use_json_nxd) ||
             (!is_err_record && config.use_json)) {
@@ -929,7 +891,23 @@ void print_passet(pdns_record *l, pdns_asset *p, ldns_rr *rr,
         }
         
         /* Add RCODE to JSON */
-        json_object_set(jdata, JSON_RCODE, json_integer(l->rcode));
+        char rr_rcode[20];
+        switch (l->rcode) {
+            case 0:  snprintf(rr_rcode, 20, "NOERROR");    break;
+            case 1:  snprintf(rr_rcode, 20, "FORMERR");    break;
+            case 2:  snprintf(rr_rcode, 20, "SERVFAIL");   break;
+            case 3:  snprintf(rr_rcode, 20, "NXDOMAIN");   break;
+            case 4:  snprintf(rr_rcode, 20, "NOTIMPL");    break;
+            case 5:  snprintf(rr_rcode, 20, "REFUSED");    break;
+            case 6:  snprintf(rr_rcode, 20, "YXDOMAIN");   break;
+            case 7:  snprintf(rr_rcode, 20, "YXRRSET");    break;
+            case 8:  snprintf(rr_rcode, 20, "NXRRSET");    break;
+            case 9:  snprintf(rr_rcode, 20, "NOTAUTH");    break;
+            case 10: snprintf(rr_rcode, 20, "NOTZONE");    break;
+            default: snprintf(rr_rcode, 20, "UNKNOWN-%d", l->rcode); break;
+        }
+        json_object_set(jdata, JSON_RCODE, json_string(rr_rcode));
+        
         /* Print protocol */
         if (config.fieldsf & FIELD_PROTO) {
             json_proto = json_string(proto);
@@ -1188,12 +1166,24 @@ void print_passet(pdns_record *l, pdns_asset *p, ldns_rr *rr,
         if (config.fieldsf & FIELD_RCODE) {
             if (offset != 0)
             offset += snprintf(output+offset, sizeof(buffer) - offset, "%s", d);
-    
-        if (is_err_record) {
+
+            char rr_rcode[20];  // Buffer for human-readable RCODE strings
+            switch (l->rcode) {  // Use l->rcode for both error and non-error records
+                case 0:  snprintf(rr_rcode, 20, "NOERROR");    break;
+                case 1:  snprintf(rr_rcode, 20, "FORMERR");    break;
+                case 2:  snprintf(rr_rcode, 20, "SERVFAIL");   break;
+                case 3:  snprintf(rr_rcode, 20, "NXDOMAIN");   break;
+                case 4:  snprintf(rr_rcode, 20, "NOTIMPL");    break;
+                case 5:  snprintf(rr_rcode, 20, "REFUSED");    break;
+                case 6:  snprintf(rr_rcode, 20, "YXDOMAIN");   break;
+                case 7:  snprintf(rr_rcode, 20, "YXRRSET");    break;
+                case 8:  snprintf(rr_rcode, 20, "NXRRSET");    break;
+                case 9:  snprintf(rr_rcode, 20, "NOTAUTH");    break;
+                case 10: snprintf(rr_rcode, 20, "NOTZONE");    break;
+                default: snprintf(rr_rcode, 20, "UNKNOWN-%d", l->rcode); break;
+            }
+
             offset += snprintf(output+offset, sizeof(buffer) - offset, "%s", rr_rcode);
-         } else {
-        offset += snprintf(output+offset, sizeof(buffer) - offset, "%d", l->rcode);
-        }
         }
 
 #ifdef HAVE_JSON
