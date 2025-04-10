@@ -1,5 +1,13 @@
 #PASSIVEDNS-RCODE
 This repo is a cloned project of https://github.com/gamelinux/passivedns . Here i have modified the source code logic of passivedns to print RCODES as human understandable code in the passivedns.log 
+#
+#  ______                                           ____   __  __  _____
+# |  __  |                         @               |    \ |  \ | ||  ___| (TM)
+# | _____|.------. .-----. .-----. _ -. .-.------. | |\  ||   \| ||___  |
+# |  |    |  __  ||__  --'|__  --'| |\ Y /| _--__|_| |/  ||      || \_| |
+# |__|    |____|_||______||______||_| \_/ |_______/|____/ |__|\__||_____|
+#
+#
 
 #Log
 2025-04-09 11:58:31.606475||192.168.100.11||IN||google.com.||A||142.250.195.142||NOERROR
