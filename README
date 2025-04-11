@@ -9,13 +9,6 @@ This repo is a cloned project of https://github.com/gamelinux/passivedns . Here 
 #
 #
 
-#Log
-2025-04-09 11:58:31.606475||192.168.100.11||IN||google.com.||A||142.250.195.142||NOERROR
-2025-04-09 11:58:38.427083||192.168.100.11||IN||meta.com.||A||157.240.7.20||NOERROR
-2025-04-09 11:59:08.320186||192.168.100.11||IN||dnssec-failed.org.||A||��7�U||SERVFAIL
-2025-04-09 11:59:22.278199||192.168.100.11||IN||example.com.||A||N)�7�U||FORMERR
-2025-04-09 11:59:59.110841||192.168.100.11||IN||nxdomain-test.dev.||A||��X�||NXDOMAIN
-
 Installation
 $git clone https://github.com/IssacGladin/passivedns-rcode.git
 $cd passivedns-rcode
@@ -24,4 +17,12 @@ $./configure
 $make 
 
 Using passivedns
-./passivedns -i eth0 -f HSsQTACR  -l /var/log/passivedns.log
+$cd /src
+$./passivedns -i eth0 -f HSsQTACR  -l /var/log/passivedns.log
+
+#Log
+2025-04-09 11:58:31.606475||192.168.100.11||IN||google.com.||A||142.250.195.142||NOERROR
+2025-04-09 11:58:38.427083||192.168.100.11||IN||meta.com.||A||157.240.7.20||NOERROR
+2025-04-09 11:59:08.320186||192.168.100.11||IN||dnssec-failed.org.||A||��7�U||SERVFAIL
+2025-04-09 11:59:22.278199||192.168.100.11||IN||example.com.||A||N)�7�U||FORMERR
+2025-04-09 11:59:59.110841||192.168.100.11||IN||nxdomain-test.dev.||A||��X�||NXDOMAIN
